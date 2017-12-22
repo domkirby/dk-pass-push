@@ -30,11 +30,9 @@ $_SESSION['csrf'] = base64_encode(random_bytes(32));
             <input type="hidden" name="UrlKey" value="<?php echo $_GET['pid']; ?>" id="field_urlkey">
             <input type="hidden" name="csrf" value="<?php echo $_SESSION['csrf'];?>" id="field_csrf">
             <span id="div_Secret">
-            <div class="input-group">
-                <span class="input-group-addon">Your Secret</span>
-                <textarea class="form-control" type="text" value="60" name="secret" aria-label="secret" readonly id="field_SecretValue"></textarea>
-            </div>
-            <button class="btn-success btn-lg btncopy" id="btn_CopySecret" data-clipboard-target="#field_SecretValue"> Copy to Clipboard </button>&nbsp;&nbsp;&nbsp;
+                <div id="quill-toolbar" style="display: none;"></div>
+                <p><b>Your Secret</b></p>
+            <div id="quill-readonly" style="background: white;"></div>
             <button class="btn-danger btn-lg" id="btn_Delete" onclick="location.href = 'delete.php?pid=<?php echo $_GET['pid']; ?>&csrf=<?php echo $_SESSION['csrf'];?>'; return false;">Delete Secret</button>
         </span>
             <span id="div_Recap">
@@ -54,32 +52,47 @@ $_SESSION['csrf'] = base64_encode(random_bytes(32));
         location.href = '{$cfg_appUrl}';";
     }?>
 
-    $("#frm_GetSecret").submit(function(e) {
-        e.preventDefault();
-        urlkey = $("#field_urlkey").val();
-        csrf = $("#field_csrf").val();
-        $.ajax({
-            url: 'doRetrieveSecret.php',
-            data: {
-                urlkey: urlkey,
-                csrf: csrf,
-                rcresponse: grecaptcha.getResponse()
+    $(document).ready(function() {
+        var quillOptions = {
+            debug: 'info',
+            modules: {
+                toolbar: false
             },
-            type: 'post',
-            dataType: 'json',
-            success: function(data) {
-                if(data.result) {
-                    secret = data.value;
-                    $("#field_SecretValue").val(secret);
-                    $("#div_Secret").show();
-                    $("#div_Recap").hide();
-                    new Clipboard(".btncopy");
-                } else {
-                    alert('Could not grab secret.\n' + data.reason);
-                    window.location.reload(true);
-                }
+            readOnly : true,
+            theme: 'snow'
+        };
+        var quillObject = new Quill('#quill-readonly', quillOptions);
 
-            }
+        $("#frm_GetSecret").submit(function(e) {
+            e.preventDefault();
+            urlkey = $("#field_urlkey").val();
+            csrf = $("#field_csrf").val();
+            $.ajax({
+                url: 'doRetrieveSecret.php',
+                data: {
+                    urlkey: urlkey,
+                    csrf: csrf,
+                    rcresponse: grecaptcha.getResponse()
+                },
+                type: 'post',
+                dataType: 'json',
+                success: function(data) {
+                    if(data.result) {
+                        secret = data.value;
+                        jsonSecret = JSON.parse(secret);
+                        quillObject.setContents(jsonSecret);
+                        $("#div_Secret").show();
+                        $("#div_Recap").hide();
+                        new Clipboard(".btncopy");
+                    } else {
+                        alert('Could not grab secret.\n' + data.reason);
+                        window.location.reload(true);
+                    }
+
+                }
+            });
         });
     });
+
+
 </script>

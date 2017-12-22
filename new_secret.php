@@ -18,9 +18,11 @@ limitations under the License.
     <div class="jumbotron"><?php echo $app_IntroTextLinkCreationPage; ?><br />
         <br />
         <form id="frm_CreateASecret">
-            <div class="input-group">
-                <span class="input-group-addon">Your Secret</span>
-                <textarea class="form-control" placeholder="Password/Secret" name="secret"></textarea>
+            <div>
+                <input type="hidden" name="secret" id="hiddenSecret"/>
+                <!--<textarea class="form-control" placeholder="Password/Secret" name="secret"></textarea>-->
+                <div id="quill-toolbar" style="background:white;"></div>
+                <div id="quill-editor" style="background: white; height: 400px;"></div>
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Time Limit</span>
@@ -52,29 +54,47 @@ limitations under the License.
 <script>
     //hide result
     $("#frm_Nowhere").hide();
-    //submission handler
-    $("#frm_CreateASecret").submit(function(e) {
-        e.preventDefault();
-        $("#btn_RequestLink").html('<img src="gui/img/loading.gif">');
-        $.ajax({
-            url: 'doCreateSecret.php',
-            method: 'post',
-            data: $("#frm_CreateASecret").serialize(),
-            dataType: 'json',
-            success: function(data) {
-                if(data.result) {
-                    $("#field_YourLink").val(data.link);
-                    $("#frm_CreateASecret").hide();
-                    new Clipboard('.btncopy');
-                    $("#frm_Nowhere").show();
-                } else {
-                    alert('System Error');
+
+    $(document).ready(function() {
+        //quill it up
+        var quill = new Quill('#quill-editor', {
+            modules:  {
+                toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    ['code-block']
+                ]
+            },
+            placeholder: 'Enter Your Secret Here',
+            theme: 'snow'  // or 'bubble'
+        });
+        //submission handler
+        $("#frm_CreateASecret").submit(function(e) {
+            e.preventDefault();
+            var secret = quill.getContents();
+            var stringSecret = JSON.stringify(secret);
+            $("#hiddenSecret").val(stringSecret);
+            $("#btn_RequestLink").html('<img src="gui/img/loading.gif">');
+            $.ajax({
+                url: 'doCreateSecret.php',
+                method: 'post',
+                data: $("#frm_CreateASecret").serialize(),
+                dataType: 'json',
+                success: function(data) {
+                    if(data.result) {
+                        $("#field_YourLink").val(data.link);
+                        $("#frm_CreateASecret").hide();
+                        new Clipboard('.btncopy');
+                        $("#frm_Nowhere").show();
+                    } else {
+                        alert('System Error');
+                    }
                 }
-            }
-        })
-    })
-    //prevent copy btn from submitting form
-    $("#frm_Nowhere").submit(function (e) {
-        e.preventDefault();
+            })
+        });
+        //prevent copy btn from submitting form
+        $("#frm_Nowhere").submit(function (e) {
+            e.preventDefault();
+        });
     });
+
 </script>

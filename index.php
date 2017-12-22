@@ -47,6 +47,7 @@ if($retrieve) {
     <script src="<?php echo $cfg_appUrl; ?>/gui/js/bootstrap.min.js">//bootstrap</script>
     <script src="<?php echo $cfg_appUrl; ?>/gui/js/clipboard.min.js">//clipboard</script>
     <script src="<?php echo $cfg_appUrl; ?>/gui/js/tether.min.js">//tether</script>
+    <script src="//cdn.quilljs.com/1.3.4/quill.min.js"></script>
     <link rel="icon" href="<?php echo $cfg_appUrl; ?>/gui/custom/favicon.ico">
     <?php if($retrieve) { ?>
     <script src='https://www.google.com/recaptcha/api.js'></script>
@@ -54,6 +55,7 @@ if($retrieve) {
     <!--CSS STYLES-->
     <link rel="stylesheet" href="<?php echo $cfg_appUrl; ?>/gui/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo $cfg_appUrl; ?>/gui/fa/css/font-awesome.min.css">
+    <link href="//cdn.quilljs.com/1.3.4/quill.snow.css" rel="stylesheet">
     <style type="text/css">
         body {
             padding-top: 30px;

@@ -42,7 +42,7 @@ if($correctCsrf != $csrf) {
     exit(json_encode($out));
 }
 //check recaptcha
-elseif(!$recaptcha_verified) {
+elseif(!$recaptcha_verified->success) {
     $out = [
         "result" => false,
         "reason" => 'CAPTCHA VIOLATION'
