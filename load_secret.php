@@ -19,12 +19,16 @@ limitations under the License.
 
 ?>
 <?php
-session_start();
 $_SESSION['csrf'] = base64_encode(random_bytes(32));
 ?>
 <div class="container">
     <img class="img-responsive center-block" style="height:100px; padding-bottom:20px" src="<?php echo $cfg_appUrl;?>/gui/custom/logo.png">
-    <div class="jumbotron"><?php echo $app_IntroTextLinkCreationPage; ?><br />
+    <div class="jumbotron">
+        <div class="alert alert-primary" role="alert">
+            <?php echo $app_SecretRetrieveInstructions; ?>
+        </div>
+        
+    </div><br />
         <br />
         <form action="doRetrieveSecret.php" id="frm_GetSecret" method="post">
             <input type="hidden" name="UrlKey" value="<?php echo $_GET['pid']; ?>" id="field_urlkey">
@@ -36,9 +40,7 @@ $_SESSION['csrf'] = base64_encode(random_bytes(32));
             <button class="btn-danger btn-lg" id="btn_Delete" onclick="location.href = 'delete.php?pid=<?php echo $_GET['pid']; ?>&csrf=<?php echo $_SESSION['csrf'];?>'; return false;">Delete Secret</button>
         </span>
             <span id="div_Recap">
-            <div class="input-group">
-                <div class="g-recaptcha" data-sitekey="<?php echo $cfg_RecaptchaPublic; ?>"></div>
-            </div>
+        
             <button class="btn-success btn-lg" id="btn_RetrieveSecret" type="submit"> Retrieve Secret </button>
         </span>
         </form>
@@ -71,8 +73,7 @@ $_SESSION['csrf'] = base64_encode(random_bytes(32));
                 url: 'doRetrieveSecret.php',
                 data: {
                     urlkey: urlkey,
-                    csrf: csrf,
-                    rcresponse: grecaptcha.getResponse()
+                    csrf: csrf
                 },
                 type: 'post',
                 dataType: 'json',

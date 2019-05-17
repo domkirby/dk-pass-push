@@ -6,13 +6,18 @@ This application can be whitelabeled to your brand - very handy for MSPs or othe
 
 ## Installing
 
-Installation instructions are available in the included PDF file
+Installation instructions are available in INSTALL.md
 
 
 ## Security
 
-This app uses the [defuse/php-encryption](https://github.com/defuse/php-encryption) library to encrypt data. Each secret has it's own key, which is protected by a password. The password is the url key (the query string submitted to find the record) plus a salt that is defined in the configuration file. This makes for a very secure password to protect a very strong key. This "password" is stored in a hashed (sha256) format. We chose SHA256 so that the hashes are consistent (password_hash uses unique salts). We cannot use unique salts as we need to be able to search for the record based on the query string in the URL.
+This app uses the [defuse/php-encryption](https://github.com/defuse/php-encryption) library to encrypt data. Each secret has it's own key, which is protected by a password. The password is the url key (the query string submitted to find the record) plus a salt that is defined in the configuration file. This makes for a very secure password to protect a very strong key. This "password" is stored in a hashed (sha512) format. We chose SHA512 so that the hashes are consistent (password_hash uses unique salts). We cannot use unique salts as we need to be able to search for the record based on the query string in the URL.
+
+The app is written in such a way that a server administrator is not able to decrypt the contents of the secret unless they know the URL for said secret.
 
 ## Reporting Bugs or Security Issues
 
 If you find an issue with this code, feel free to fork it and fix it, or submit an issue.
+
+## Your Laws
+This app uses encryption, use it according to local encryption laws.

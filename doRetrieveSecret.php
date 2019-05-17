@@ -28,8 +28,7 @@ $dbActions = new \PassPuah\Database();
 //make friendly variables
 $urlKey = $_POST['urlkey'];
 $csrf = $_POST['csrf'];
-$recaptcha = $_POST['rcresponse'];
-$verify=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$cfg_RecaptchaSecret}&response={$recaptcha}");
+//$verify=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$cfg_RecaptchaSecret}&response={$recaptcha}");
 $recaptcha_verified = json_decode($verify);
 header("Content-type: application/json");
 
@@ -38,14 +37,6 @@ if($correctCsrf != $csrf) {
     $out = [
         "result" => false,
         "reason" => 'CSRF VIOLATION'
-    ];
-    exit(json_encode($out));
-}
-//check recaptcha
-elseif(!$recaptcha_verified->success) {
-    $out = [
-        "result" => false,
-        "reason" => 'CAPTCHA VIOLATION'
     ];
     exit(json_encode($out));
 } else {

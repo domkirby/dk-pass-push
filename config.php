@@ -21,24 +21,51 @@ limitations under the License.
 
 $cfg_DBSERVER = "localhost"; //mysql db server
 
-$cfg_DBNAME = ""; //mysql db name
+$cfg_DBNAME = "your database name"; //mysql db name
 
-$cfg_DBUSER = ""; //mysql db user
+$cfg_DBUSER = "your database user"; //mysql db user
 
-$cfg_DBPASS = ""; //mysql db password
+$cfg_DBPASS = "your database password"; //mysql db password
 
-$cfg_AppName = "DK PassPush"; //app display name
+$cfg_AppName = "DK Pass Push"; //app display name
 
 
-$cfg_appUrl = "https://pass.domkirby.com"; //URL / path with no trailing /
+$cfg_appUrl = "https://pass.yourdomain.com"; //URL / path with no trailing /
 
-$app_IntroTextLinkCreationPage = "You can use our secure password sharing system to securely exchange passwords or other sensitive information. Enter your secret in the first field, and specify time and view limits in the following fields. The information will be removed from the server after specified time has passed or the link has been viewed the specified number of times. Whichever comes first.";
-//Above is the text that will be displayed on the link generation page.
-
-$cfg_RecaptchaPublic = ""; //aka site key
-
-$cfg_RecaptchaSecret = "";
-
-$cfg_Salt = "aAW9DptAV@PkhQ61%AmwY!jv13Cn(O(R(Kr0Hq#(xlv5)pYnrSKy4vu7$2l6RPRXlp95KpbC7cO7GMXY1Q(Q%GIMD$0r(qAn!y)j@w9C9ik&OjbA8w8Sh7MAVZgMjD"; //CHANGE THIS TO YOUR OWN SALT!!! Do not use quotes in your salt.
+$cfg_Salt = "jUzyeeV%0LCo)F4iUuAvQDsJ3Aifwtr&@IXyAJzrO6PDyr1nJ4%E11Pz8&bI"; //CHANGE THIS TO YOUR OWN SALT!!! Do not use quotes or dollar signs in your salt. We recommend 40 or more chars.
 //NOTE: Changing the salt will make any secrets in the DB impossible to decrypt as the salt is needed in the process (unless of course you put the old salt back).
 
+/*
+Friendly URL setting:
+-If TRUE, then your links will look like https://rooturl/Juh73h
+-If FALSE, then your links will look like https://rooturl/?pid=Juh73h
+
+If you opt to use a friendly URL, then you will need to add the contents of htaccess-example.txt to your .htaccess file or do an equivalent rewrite in IIS if you're using Windows.
+*/
+$cfg_UseFriendlyURLs = false;
+
+/*
+Customize your introduction text that is displayed as instructions for creating a link. Enter html inbetween <<<HTML and HTML;
+*/
+$app_IntroTextLinkCreationPage = <<<HTML
+
+<b>Welcome</b> to our secure password and secret sharing service. To create a new secret, follow these steps:
+<ul>
+    <li>Enter your "secret" in the large field below.</li>
+    <li>Select a time limit and max number of views.</li>
+    <li>Click "Get Secure Link"</li>
+    <li>A secure link will be displayed. <b>You must copy this link and send it via email or other means to your intended recipient</b>
+</ul>
+Your secret will be <i>permanently</i> deleted when the time limit has elapsed or the max views have been met, whichever occurs first.<br/>
+Your secret is encrypted using a unique key, and can <strong>only</strong> be decrypted by a person in possession of the secure link. We cannot decrypt your secret if we are not provided with the link.
+
+HTML;
+//Above is the text that will be displayed on the link generation page.
+
+
+$app_LinkCreationSuccessText = "Your Secret has been stored securely. Please <strong>copy the link below</strong> and send it to your intended recipient."; //enter text that will be displayed to the user once they have generated a link successfully 
+//For the success text, avoid using <div> and <p> and the like. You can use <strong> <i> etc.
+
+
+//Specify text presented to people who have visited a valid password link. Avoid using <div> and <p> and the like. You can use <strong> <i> etc. Escape quotes with \ - for example \"quoted text\"
+$app_SecretRetrieveInstructions = "You have received a secret from someone using the <a href='https://domkirby.com' target='_blank'>DomKirby</a> secret sharing service. Click the \"Retrieve Secret\" button below to get your secret. NOTE: Once you click the button, a view will be counted towards the maximum views of this secret.";

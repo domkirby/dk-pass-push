@@ -53,4 +53,4 @@ try {
     die($e->getMessage());
 }
 
-echo "Done";
+echo "Done - delete this file or the script will not function.";

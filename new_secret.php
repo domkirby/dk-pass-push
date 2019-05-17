@@ -15,7 +15,7 @@ limitations under the License.
 ?>
 <div class="container">
     <img class="img-responsive center-block" style="height:100px; padding-bottom:20px" src="<?php echo $cfg_appUrl;?>/gui/custom/logo.png">
-    <div class="jumbotron"><?php echo $app_IntroTextLinkCreationPage; ?><br />
+    <div class="jumbotron" ><span id="jumbotron_header"><?php echo $app_IntroTextLinkCreationPage; ?></span><br />
         <br />
         <form id="frm_CreateASecret">
             <div>
@@ -26,12 +26,12 @@ limitations under the License.
             </div>
             <div class="input-group">
                 <span class="input-group-addon">Time Limit</span>
-                <input class="form-control" type="text" value="60" name="time" aria-label="time" />
+                <input class="form-control" type="text" value="1" name="time" aria-label="time" />
                 <div class="input-group-btn">
                     <select class="form-control" name="units">
                         <option>minutes</option>
                         <option>hours</option>
-                        <option>days</option>
+                        <option selected>days</option>
                     </select>
                 </div>
             </div>
@@ -45,7 +45,7 @@ limitations under the License.
         <form id="frm_Nowhere">
             <div class="input-group">
                 <span class="input-group-addon">Your Secure Link</span>
-                <input class="form-control" type="text" id="field_YourLink" />
+                <input class="form-control" type="text" id="field_YourLink" readonly />
             </div>
             <button class="btn btn-success btn-large btncopy" id="btn_Copy" data-clipboard-target="#field_YourLink">Copy to Clipboard</button>
         </form>
@@ -85,6 +85,7 @@ limitations under the License.
                         $("#frm_CreateASecret").hide();
                         new Clipboard('.btncopy');
                         $("#frm_Nowhere").show();
+                        $("#jumbotron_header").html('<div class="alert alert-success" role="alert"> <?php echo $app_LinkCreationSuccessText; ?> </div>');
                     } else {
                         alert('System Error');
                     }

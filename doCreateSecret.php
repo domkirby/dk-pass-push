@@ -55,7 +55,12 @@ $newId = PassPushCrypto::MakeKeys($cfg_Salt);
 $StorageHash = $newId["StorageHash"];
 //make a url variable that will be used in a moment
 $UrlKey = $newId["UrlKey"];
-$theLink = $cfg_appUrl . "/?pid=$UrlKey";
+if($cfg_UseFriendlyURLs) {
+    $theLink = $cfg_appUrl . "/$UrlKey";
+} else {
+    $theLink = $cfg_appUrl . "/?pid=$UrlKey";
+}
+
 //make a crypto key var
 $ProtectedKey = $newId["CryptoKey"];
 //encrypt the secret
