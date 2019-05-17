@@ -34,7 +34,7 @@ $alter = "
 ALTER TABLE `Pushes`
   ADD PRIMARY KEY (`pushId`);";
 
-$db = new PassPuah\Database();
+$db = new PassPush\Database();
 
 try {
     $stmt = $db->connection->prepare($create);

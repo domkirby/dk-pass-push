@@ -20,5 +20,5 @@ limitations under the License.
 require("PassPush/Database.php");
 
 $time = time();
-$db = new PassPuah\Database();
+$db = new PassPush\Database();
 $db->CronDelete();

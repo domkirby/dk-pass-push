@@ -19,7 +19,7 @@ limitations under the License.
 require "config.php";
 require("PassPush/Database.php");
 require("PassPush/PassPushCrypto.php");
-$db = new \PassPuah\Database();
+$db = new \PassPush\Database();
 session_start();
 
 $UrlKey = $_GET['pid'];

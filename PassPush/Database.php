@@ -6,8 +6,8 @@
  * Time: 20:41
  */
 
-namespace PassPuah;
-use \PassPuah\PassPushCrypto;
+namespace PassPush;
+use \PassPush\PassPushCrypto;
 
 class Database
 {

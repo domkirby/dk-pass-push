@@ -6,7 +6,7 @@
  * Time: 20:41
  */
 
-namespace PassPuah;
+namespace PassPush;
 
 use \Defuse\Crypto\KeyProtectedByPassword;
 use \Defuse\Crypto\Key;

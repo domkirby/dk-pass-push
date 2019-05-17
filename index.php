@@ -36,7 +36,7 @@ if($retrieve) {
     $page = "load_secret.php";
     require("PassPush/PassPushCrypto.php");
     require("PassPush/Database.php");
-    $db = new \PassPuah\Database();
+    $db = new \PassPush\Database();
     $SecretExists = $db->CheckSecretExists($_GET['pid'], $cfg_Salt);
 } else {
     $page = "new_secret.php";

@@ -20,8 +20,8 @@ require("config.php");
 require("vendor/autoload.php");
 require("PassPush/PassPushCrypto.php");
 require("PassPush/Database.php");
-use PassPuah\PassPushCrypto;
-$dbActions = new \PassPuah\Database();
+use PassPush\PassPushCrypto;
+$dbActions = new \PassPush\Database();
 
 //make friendly variables
 $secret = $_POST['secret'];
