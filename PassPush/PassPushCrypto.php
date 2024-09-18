@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: DominicKirby
- * Date: 10/8/2017
- * Time: 20:41
- */
 
 namespace PassPush;
 
@@ -14,17 +8,18 @@ use \Defuse\Crypto\Crypto;
 
 class PassPushCrypto
 {
-    public static function MakeKeys($salt)
+    public static function MakeKeys($salt, $shortUrlKey = false)
     {
-        //$randomBits = base64_encode(random_bytes(64).uniqid("", true)); //generate some randomness and throw in a uniqid to prevent dupes
-
-        //$UrlKey = hash("sha256", $randomBits); //make a URL friendly identifier (which is also a significant part of the password)
-
-        $UrlKey = PassPushCrypto::generateEasyUrlString(6, false, 'lud');
+        if($shortUrlKey) {
+            $UrlKey = PassPushCrypto::generateEasyUrlString(6, false, 'lud');
+        } else {
+            $randomBits = bin2hex(random_bytes(32)).uniqid(); //random data with a uniqid - the uniqid makes 100% sure we won't have a duplicate, the random bytes create randomness.
+            $UrlKey = hash("sha256", $randomBits); //use a sha256 hash of the madness to generate a sufficiently difficult to guess URL key, without needing to deal with URL encoding
+        }        
 
         $Password = $UrlKey.$salt; // add salt to the url key, this will be used as the password but NOT stored in the DB (Salt is added during subsequent operations)
 
-        $HASH = hash('sha512', $Password); //$HASH is a has of the password, which is made in the format $UrlKey.$salt
+        $HASH = self::GetStorageHash($UrlKey, $salt);
 
         $protected_crypto_key = KeyProtectedByPassword::createRandomPasswordProtectedKey($Password); //make a password protected decryption key
 
@@ -74,8 +69,8 @@ class PassPushCrypto
 
     public static function GetStorageHash($UrlKey, $salt)
     {
-        $Password = $UrlKey.$salt;
-        $HASH = hash('sha512', $Password);
+        //$HASH = hash('sha512', $Password);
+        $HASH = hash_hmac("sha256", $UrlKey, $salt);
         return $HASH;
     }
 

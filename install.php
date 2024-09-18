@@ -34,7 +34,15 @@ $alter = "
 ALTER TABLE `Pushes`
   ADD PRIMARY KEY (`pushId`);";
 
-$db = new PassPush\Database();
+try {
+  $db = new PassPush\Database();
+  if($db->connection->connect_errno) {
+    die("<strong>Error: </strong>Could not connect to MySQL. Is the config.php file filled out? Error Detail: " . $db->connection->connect_error);
+  }
+} catch(\Exception $e) {
+  $m = $e->getMessage();
+  die("Error Connecting to DB: $m <br />Is the config file copmlete?");
+}
 
 try {
     $stmt = $db->connection->prepare($create);

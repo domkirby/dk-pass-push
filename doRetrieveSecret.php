@@ -28,8 +28,6 @@ $dbActions = new \PassPush\Database();
 //make friendly variables
 $urlKey = $_POST['urlkey'];
 $csrf = $_POST['csrf'];
-//$verify=file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret={$cfg_RecaptchaSecret}&response={$recaptcha}");
-$recaptcha_verified = json_decode($verify);
 header("Content-type: application/json");
 
 //check csrf

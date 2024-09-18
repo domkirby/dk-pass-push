@@ -57,22 +57,15 @@ Powered by DKPassPush https://github.com/domkirby/dk-pass-push
     -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Dominic Kirby / domkirby.com">
+    <meta name="author" content="Dom Kirby / domkirby.com">
     <meta name="application-name" content="<?php echo $cfg_AppName;?>"/>
     <title><?php echo $cfg_AppName;?></title>
 
     <link rel="icon" href="<?php echo $cfg_appUrl; ?>/gui/custom/favicon.ico">
-        <!--JS-->
-    <script src="<?php echo $cfg_appUrl; ?>/gui/js/jquery-3.2.1.min.js">//jquery</script>
-    <script src="<?php echo $cfg_appUrl; ?>/gui/js/popper.js">//popper</script>
-    <script src="<?php echo $cfg_appUrl; ?>/gui/js/bootstrap.min.js">//bootstrap</script>
-    <script src="<?php echo $cfg_appUrl; ?>/gui/js/clipboard.min.js">//clipboard</script>
-    <script src="<?php echo $cfg_appUrl; ?>/gui/js/tether.min.js">//tether</script>
-    <script src="//cdn.quilljs.com/1.3.4/quill.min.js">//quill</script>
     <!--CSS STYLES-->
     <link rel="stylesheet" href="<?php echo $cfg_appUrl; ?>/gui/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo $cfg_appUrl; ?>/gui/fa/css/font-awesome.min.css">
-    <link href="//cdn.quilljs.com/1.3.4/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
     <style type="text/css">
         body {
             padding-top: 30px;
@@ -90,6 +83,12 @@ Powered by DKPassPush https://github.com/domkirby/dk-pass-push
     </style>
 </head>
 <body>
+<script src="<?php echo $cfg_appUrl; ?>/gui/js/jquery-3.2.1.min.js">//jquery</script>
+<script src="<?php echo $cfg_appUrl; ?>/gui/js/popper.js">//popper</script>
+<script src="<?php echo $cfg_appUrl; ?>/gui/js/bootstrap.min.js">//bootstrap</script>
+<script src="<?php echo $cfg_appUrl; ?>/gui/js/clipboard.min.js">//clipboard</script>
+<script src="<?php echo $cfg_appUrl; ?>/gui/js/tether.min.js">//tether</script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <nav>
     <div class="container">
         <ul class="nav navbar-nav">
@@ -99,7 +98,6 @@ Powered by DKPassPush https://github.com/domkirby/dk-pass-push
 <!--Start Dynamic Content-->
 <?php require($page);?>
 <!--End Dynamic Content-->
-
 
 
 </body>

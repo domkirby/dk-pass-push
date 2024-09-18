@@ -46,6 +46,16 @@ What this library provides is symmetric encryption for "data at rest." This
 means it is not suitable for use in building protocols where "data is in motion"
 (i.e. moving over a network) except in limited set of cases.
 
+Please note that **encryption does not, and is not intended to, hide the
+*length* of the data being encrypted.** For example, it is not safe to encrypt
+a field in which only a small number of different-length values are possible
+(e.g. "male" or "female") since it would be possible to tell what the plaintext
+is by looking at the length of the ciphertext. In order to do this safely, it is
+your responsibility to, before encrypting, pad the data out to the length of the
+longest string that will ever be encrypted. This way, all plaintexts are the
+same length, and no information about the plaintext can be gleaned from the
+length of the ciphertext.
+
 Getting the Code
 -----------------
 
@@ -211,12 +221,18 @@ function CreateUserAccount($username, $password)
 }
 ```
 
+**WARNING:** Because of the way `KeyProtectedByPassword` is implemented, knowing
+`SHA256($password)` is enough to decrypt a `KeyProtectedByPassword`. To be
+secure, your application MUST NOT EVER compute `SHA256($password)` and use or
+store it for any reason. You must also make sure that other libraries your
+application is using don't compute it either.
+
 Then, when the user logs in, Dave's code will load the protected key from the
 user's account record, unlock it to get a `Key` object, and save the `Key`
-object somewhere safe (like temporary memory-backed session storage). Note that
-wherever Dave's code saves the key, it must be destroyed once the user logs out,
-or else the attacker might be able to find users' keys even if they were never
-logged in during the attack.
+object somewhere safe (like temporary memory-backed session storage or
+a cookie). Note that wherever Dave's code saves the key, it must be destroyed
+once the user logs out, or else the attacker might be able to find users' keys
+even if they were never logged in during the attack.
 
 ```php
 <?php
@@ -229,7 +245,7 @@ $protected_key_encoded = // ... load it from the user's account record
 $protected_key = KeyProtectedByPassword::loadFromAsciiSafeString($protected_key_encoded);
 $user_key = $protected_key->unlockKey($password);
 $user_key_encoded = $user_key->saveToAsciiSafeString();
-// ... save $user_key_encoded in the session
+// ... save $user_key_encoded in a cookie
 ```
 
 ```php
@@ -239,7 +255,7 @@ $user_key_encoded = $user_key->saveToAsciiSafeString();
 ```
 
 When a user adds their credit card number, Dave's code will get the key from the
-session and use it to encrypt the credit card number:
+memory-backed session or cookie and use it to encrypt the credit card number:
 
 ```php
 <?php
@@ -248,7 +264,7 @@ use Defuse\Crypto\Key;
 
 // ...
 
-$user_key_encoded = // ... get it out of the session ...
+$user_key_encoded = // ... get it out of the cookie ...
 $user_key = Key::loadFromAsciiSafeString($user_key_encoded);
 
 // ...
@@ -267,7 +283,7 @@ use Defuse\Crypto\Key;
 
 // ...
 
-$user_key_encoded = // ... get it out of the session
+$user_key_encoded = // ... get it out of the cookie
 $user_key = Key::loadFromAsciiSafeString($user_key_encoded);
 
 // ...

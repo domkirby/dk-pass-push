@@ -20,7 +20,6 @@ limitations under the License.
         <form id="frm_CreateASecret">
             <div>
                 <input type="hidden" name="secret" id="hiddenSecret"/>
-                <!--<textarea class="form-control" placeholder="Password/Secret" name="secret"></textarea>-->
                 <div id="quill-toolbar" style="background:white;"></div>
                 <div id="quill-editor" style="background: white; height: 400px;"></div>
             </div>

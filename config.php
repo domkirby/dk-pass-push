@@ -4,19 +4,19 @@
  *
  * Config File
  *
- * Copyright 2017 - Dominic Kirby (domkirby.com)
+ * Copyright 2024 - Dominic Kirby (domkirby.com)
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+* http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
  */
 
 $cfg_DBSERVER = "localhost"; //mysql db server
@@ -43,6 +43,17 @@ Friendly URL setting:
 If you opt to use a friendly URL, then you will need to add the contents of htaccess-example.txt to your .htaccess file or do an equivalent rewrite in IIS if you're using Windows.
 */
 $cfg_UseFriendlyURLs = false;
+
+/*
+Short URL Setting:
+This setting dictates whether or not to use short URL.
+- A short URL is something like https://rooturl/Juh73h (set to true to enable this)
+- A long URL is something like https://rooturl/3d1357abf0585571445d391805fa33bbc65d86ee22232dd2122f137aa9939326 (a SHA256 hash of randomness)
+
+The long URL is stronger, as the URL is used as a basis for protecting a unique encryption key. It's also much harder to guess.
+However, a short URL, while being less secure, is easier to type. Make your decision as convenience vs security.
+*/
+$cfg_UseShortURLs = false;
 
 /*
 Customize your introduction text that is displayed as instructions for creating a link. Enter html inbetween <<<HTML and HTML;

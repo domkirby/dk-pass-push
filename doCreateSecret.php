@@ -50,7 +50,7 @@ switch($units) {
 }
 
 //get a new id
-$newId = PassPushCrypto::MakeKeys($cfg_Salt);
+$newId = PassPushCrypto::MakeKeys($cfg_Salt, $cfg_UseShortURLs);
 //make hash variable to be used in a moment
 $StorageHash = $newId["StorageHash"];
 //make a url variable that will be used in a moment

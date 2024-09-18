@@ -41,7 +41,11 @@ final class Key
      *
      * @return Key
      */
-    public static function loadFromAsciiSafeString($saved_key_string, $do_not_trim = false)
+    public static function loadFromAsciiSafeString(
+        #[\SensitiveParameter]
+        $saved_key_string,
+        $do_not_trim = false
+    )
     {
         if (!$do_not_trim) {
             $saved_key_string = Encoding::trimTrailingWhitespace($saved_key_string);
@@ -82,13 +86,15 @@ final class Key
      *
      * @throws Ex\EnvironmentIsBrokenException
      */
-    private function __construct($bytes)
+    private function __construct(
+        #[\SensitiveParameter]
+        $bytes
+    )
     {
-        if (Core::ourStrlen($bytes) !== self::KEY_BYTE_SIZE) {
-            throw new Ex\EnvironmentIsBrokenException(
-                'Bad key length.'
-            );
-        }
+        Core::ensureTrue(
+            Core::ourStrlen($bytes) === self::KEY_BYTE_SIZE,
+            'Bad key length.'
+        );
         $this->key_bytes = $bytes;
     }
 
